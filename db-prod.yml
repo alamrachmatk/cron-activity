@@ -1,0 +1,10 @@
+
+#database connection settings
+Type: mysql
+URL: dnsfilter:rahasiadns@(175.106.8.72:3306)/dnsfilter
+
+#sql commands used in application
+SQLCommand:
+
+  GetTotalSites: >
+    select COUNT(id) total from dns_dev
