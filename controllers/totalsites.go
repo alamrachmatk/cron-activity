@@ -1,4 +1,4 @@
-package totalsites
+package controllers
 
 import (
 	"database/sql"
@@ -9,7 +9,7 @@ import (
 	ex "github.com/wolvex/go/error"
 )
 
-func QueryTotalSites(dbConn db.DbConnection, redisConn redis.Conn) {
+func TotalSites(dbConn db.DbConnection, redisConn redis.Conn) {
 	log.Info("Processing pending get total sites")
 
 	var err *ex.AppError
@@ -57,10 +57,9 @@ func totalSitesQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (
 	}
 
 	if key != "" {
-		redisConn.Do("DEL", key+".value")
-
-		log.Info("Save value to " + key + ".value")
 		redisConn.Do("SELECT", 0)
+		redisConn.Do("DEL", key+".value")
+		log.Info("Save value to " + key + ".value")
 		redisConn.Do("SET", key+".value", total)
 	}
 

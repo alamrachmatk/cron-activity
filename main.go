@@ -4,7 +4,7 @@ import (
 	"os"
 
 	"cron-activity/common"
-	"cron-activity/totalsites"
+	"cron-activity/controllers"
 
 	"github.com/garyburd/redigo/redis"
 	log "github.com/sirupsen/logrus"
@@ -52,6 +52,8 @@ func main() {
 	dbConn := initDB()
 	redisConn := initRedis()
 
-	gocron.Every(1).Day().At("01:00").Do(totalsites.QueryTotalSites, dbConn, redisConn)
+	gocron.Every(1).Day().At("23:00").Do(controllers.MostActive, dbConn, redisConn)
+	gocron.Every(1).Day().At("01:00").Do(controllers.TotalSites, dbConn, redisConn)
+
 	<-gocron.Start()
 }
