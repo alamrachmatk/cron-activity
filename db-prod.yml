@@ -6,9 +6,20 @@ URL: dnsfilter:rahasiadns@(175.106.8.72:3306)/dnsfilter
 #sql commands used in application
 SQLCommand:
 
-  GetTotalSites: >
-    select COUNT(id) total from dns_dev
+  GetTotalDns: >
+    select COUNT(id) total from dns
 
-  GetMostActive: >
+  GetTotalBlok: >
+    select COUNT(id) total from blok  
+
+  GetTotalDnsBlok: >
+    SELECT count(dns.id) AS total 
+    FROM dns JOIN blok ON dns.base_domain = blok.`name` WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW())
+
+  GetMostActiveList: >
     SELECT base_domain, count(base_domain) total_most_active 
-    from dns_dev WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW()) GROUP BY base_domain ORDER BY total_most_active DESC LIMIT 10
+    from dns WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW()) GROUP BY base_domain ORDER BY total_most_active DESC LIMIT 10
+
+  GetBlokList: >
+    SELECT dns.id AS blok_id, dns.domain, dns.base_domain, dns.ip_address, dns.has_subdomain, blok_category.`name` AS blok_category_name, blok.`name` AS blok_name , dns.log_datetime, dns.created_at 
+    FROM dns JOIN blok ON dns.base_domain = blok.`name` JOIN blok_category ON blok_category.id = blok.category_blok_id WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW()) LIMIT 25

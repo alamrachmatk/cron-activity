@@ -11,7 +11,7 @@ import (
 	ex "github.com/wolvex/go/error"
 )
 
-func MostActive(dbConn db.DbConnection, redisConn redis.Conn) {
+func MostActiveList(dbConn db.DbConnection, redisConn redis.Conn) {
 	log.Info("Processing pending get most active")
 
 	var err *ex.AppError
@@ -21,16 +21,16 @@ func MostActive(dbConn db.DbConnection, redisConn redis.Conn) {
 		}
 	}()
 
-	key := "mostactive"
-	err = mostActiveQuery(key, dbConn, redisConn)
+	key := "mostactivelist"
+	err = mostActiveListQuery(key, dbConn, redisConn)
 	if err != nil {
-		log.Error("Failed query total sites: ")
+		log.Error("Failed query most active list: ")
 	}
 
 	return
 }
 
-func mostActiveQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (err *ex.AppError) {
+func mostActiveListQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (err *ex.AppError) {
 	defer func() {
 		if err != nil {
 			log.Error("Exception caught:", err.Dump())
@@ -39,8 +39,8 @@ func mostActiveQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (
 
 	var rec *sql.Rows
 	var e error
-	if rec, e = dbConn.Query("GetMostActive"); e != nil {
-		err = ex.Error(e, -255).Rem("Failed getting most active")
+	if rec, e = dbConn.Query("GetMostActiveList"); e != nil {
+		err = ex.Error(e, -255).Rem("Failed getting most active list")
 		return
 	}
 
@@ -53,7 +53,7 @@ func mostActiveQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (
 		var data models.MostActive
 
 		if e := rec.Scan(&baseDomain, &total); e != nil {
-			err = ex.Error(e, -255).Rem("Failed scanning total sites")
+			err = ex.Error(e, -255).Rem("Failed scanning most active list")
 			return
 		}
 

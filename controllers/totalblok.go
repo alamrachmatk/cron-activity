@@ -9,8 +9,8 @@ import (
 	ex "github.com/wolvex/go/error"
 )
 
-func TotalSites(dbConn db.DbConnection, redisConn redis.Conn) {
-	log.Info("Processing pending get total sites")
+func TotalBlok(dbConn db.DbConnection, redisConn redis.Conn) {
+	log.Info("Processing pending get total blok")
 
 	var err *ex.AppError
 	defer func() {
@@ -19,16 +19,16 @@ func TotalSites(dbConn db.DbConnection, redisConn redis.Conn) {
 		}
 	}()
 
-	key := "totalsites"
-	err = totalSitesQuery(key, dbConn, redisConn)
+	key := "totalblok"
+	err = totalBlokQuery(key, dbConn, redisConn)
 	if err != nil {
-		log.Error("Failed query total sites: ")
+		log.Error("Failed query total blok: ")
 	}
 
 	return
 }
 
-func totalSitesQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (err *ex.AppError) {
+func totalBlokQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (err *ex.AppError) {
 	defer func() {
 		if err != nil {
 			log.Error("Exception caught:", err.Dump())
@@ -37,8 +37,8 @@ func totalSitesQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (
 
 	var rec *sql.Rows
 	var e error
-	if rec, e = dbConn.Query("GetTotalSites"); e != nil {
-		err = ex.Error(e, -255).Rem("Failed getting total sites")
+	if rec, e = dbConn.Query("GetTotalBlok"); e != nil {
+		err = ex.Error(e, -255).Rem("Failed getting total blok")
 		return
 	}
 
@@ -47,7 +47,7 @@ func totalSitesQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (
 	var total uint64
 	for rec.Next() {
 		if e := rec.Scan(&total); e != nil {
-			err = ex.Error(e, -255).Rem("Failed scanning total sites")
+			err = ex.Error(e, -255).Rem("Failed scanning total blok")
 			return
 		}
 

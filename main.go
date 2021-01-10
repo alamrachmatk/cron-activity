@@ -52,8 +52,11 @@ func main() {
 	dbConn := initDB()
 	redisConn := initRedis()
 
-	gocron.Every(1).Day().At("23:00").Do(controllers.MostActive, dbConn, redisConn)
-	gocron.Every(1).Day().At("01:00").Do(controllers.TotalSites, dbConn, redisConn)
+	gocron.Every(1).Day().At("13:14").Do(controllers.TotalDns, dbConn, redisConn)
+	gocron.Every(1).Day().At("19:28").Do(controllers.TotalBlok, dbConn, redisConn)
+	gocron.Every(1).Day().At("15:36").Do(controllers.TotalDnsBlok, dbConn, redisConn)
+	gocron.Every(1).Day().At("20:40").Do(controllers.MostActiveList, dbConn, redisConn)
+	gocron.Every(1).Day().At("21:05").Do(controllers.BlokList, dbConn, redisConn)
 
 	<-gocron.Start()
 }
