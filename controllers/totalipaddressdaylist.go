@@ -11,8 +11,8 @@ import (
 	ex "github.com/wolvex/go/error"
 )
 
-func MostActiveList(dbConn db.DbConnection, redisConn redis.Conn) {
-	log.Info("Processing pending get most active")
+func TotalIpAddressDayList(dbConn db.DbConnection, redisConn redis.Conn) {
+	log.Info("Processing pending get ip address day list")
 
 	var err *ex.AppError
 	defer func() {
@@ -21,16 +21,16 @@ func MostActiveList(dbConn db.DbConnection, redisConn redis.Conn) {
 		}
 	}()
 
-	key := "mostactivelist"
-	err = mostActiveListQuery(key, dbConn, redisConn)
+	key := "totalipaddressdaylist"
+	err = totalIpAddressDayListQuery(key, dbConn, redisConn)
 	if err != nil {
-		log.Error("Failed query most active list: ")
+		log.Error("Failed query ip address day list: ")
 	}
 
 	return
 }
 
-func mostActiveListQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (err *ex.AppError) {
+func totalIpAddressDayListQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (err *ex.AppError) {
 	defer func() {
 		if err != nil {
 			log.Error("Exception caught:", err.Dump())
@@ -39,25 +39,25 @@ func mostActiveListQuery(key string, dbConn db.DbConnection, redisConn redis.Con
 
 	var rec *sql.Rows
 	var e error
-	if rec, e = dbConn.Query("GetMostActiveList"); e != nil {
-		err = ex.Error(e, -255).Rem("Failed getting most active list")
+	if rec, e = dbConn.Query("GetTotalIpAddressDayList"); e != nil {
+		err = ex.Error(e, -255).Rem("Failed getting dns day list")
 		return
 	}
 
 	defer rec.Close()
 
-	var dataArr []models.MostActive
+	var dataArr []models.IpAddressDay
 	for rec.Next() {
-		var baseDomain string
+		var dayName string
 		var total uint64
-		var data models.MostActive
+		var data models.IpAddressDay
 
-		if e := rec.Scan(&baseDomain, &total); e != nil {
+		if e := rec.Scan(&dayName, &total); e != nil {
 			err = ex.Error(e, -255).Rem("Failed scanning most active list")
 			return
 		}
 
-		data.BaseDomain = baseDomain
+		data.DayName = dayName
 		data.Total = total
 
 		dataArr = append(dataArr, data)
