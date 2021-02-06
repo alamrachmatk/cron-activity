@@ -11,8 +11,8 @@ import (
 	ex "github.com/wolvex/go/error"
 )
 
-func TotalIpAddressBlokCategoryDayList(dbConn db.DbConnection, redisConn redis.Conn) {
-	log.Info("Processing pending get blok category ip address day list")
+func TotalIpAddressBlockCategoryDayList(dbConn db.DbConnection, redisConn redis.Conn) {
+	log.Info("Processing pending get block category ip address day list")
 
 	var err *ex.AppError
 	defer func() {
@@ -21,16 +21,16 @@ func TotalIpAddressBlokCategoryDayList(dbConn db.DbConnection, redisConn redis.C
 		}
 	}()
 
-	key := "totalipaddressblokcategorydaylist"
-	err = totalIpAddressBlokCategoryDayListQuery(key, dbConn, redisConn)
+	key := "totalipaddressblockcategorydaylist"
+	err = totalIpAddressBlockCategoryDayListQuery(key, dbConn, redisConn)
 	if err != nil {
-		log.Error("Failed query get blok category ip address day list: ")
+		log.Error("Failed query get block category ip address day list: ")
 	}
 
 	return
 }
 
-func totalIpAddressBlokCategoryDayListQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (err *ex.AppError) {
+func totalIpAddressBlockCategoryDayListQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (err *ex.AppError) {
 	defer func() {
 		if err != nil {
 			log.Error("Exception caught:", err.Dump())
@@ -39,18 +39,18 @@ func totalIpAddressBlokCategoryDayListQuery(key string, dbConn db.DbConnection, 
 
 	var rec *sql.Rows
 	var e error
-	if rec, e = dbConn.Query("GetIpAddressBlokCategoryDayList"); e != nil {
+	if rec, e = dbConn.Query("GetIpAddressBlockCategoryDayList"); e != nil {
 		err = ex.Error(e, -255).Rem("Failed getting dns day list")
 		return
 	}
 
 	defer rec.Close()
 
-	var dataArr []models.IpAddressBlokCategoryDay
+	var dataArr []models.IpAddressBlockCategoryDay
 	for rec.Next() {
 		var categoryName string
 		var total uint64
-		var data models.IpAddressBlokCategoryDay
+		var data models.IpAddressBlockCategoryDay
 
 		if e := rec.Scan(&categoryName, &total); e != nil {
 			err = ex.Error(e, -255).Rem("Failed scanning most active list")
@@ -75,8 +75,8 @@ func totalIpAddressBlokCategoryDayListQuery(key string, dbConn db.DbConnection, 
 	return
 }
 
-func TotalDnsBlokCategoryDayList(dbConn db.DbConnection, redisConn redis.Conn) {
-	log.Info("Processing pending get blok category dns day list")
+func TotalDnsBlockCategoryDayList(dbConn db.DbConnection, redisConn redis.Conn) {
+	log.Info("Processing pending get block category dns day list")
 
 	var err *ex.AppError
 	defer func() {
@@ -85,16 +85,16 @@ func TotalDnsBlokCategoryDayList(dbConn db.DbConnection, redisConn redis.Conn) {
 		}
 	}()
 
-	key := "totaldnsblokcategorydaylist"
-	err = totalDnsBlokCategoryDayListQuery(key, dbConn, redisConn)
+	key := "totaldnsblockcategorydaylist"
+	err = totalDnsBlockCategoryDayListQuery(key, dbConn, redisConn)
 	if err != nil {
-		log.Error("Failed query get blok category dns day list: ")
+		log.Error("Failed query get block category dns day list: ")
 	}
 
 	return
 }
 
-func totalDnsBlokCategoryDayListQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (err *ex.AppError) {
+func totalDnsBlockCategoryDayListQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (err *ex.AppError) {
 	defer func() {
 		if err != nil {
 			log.Error("Exception caught:", err.Dump())
@@ -103,21 +103,21 @@ func totalDnsBlokCategoryDayListQuery(key string, dbConn db.DbConnection, redisC
 
 	var rec *sql.Rows
 	var e error
-	if rec, e = dbConn.Query("GetDnsBlokCategoryDayList"); e != nil {
-		err = ex.Error(e, -255).Rem("Failed getting blok category dns day list")
+	if rec, e = dbConn.Query("GetDnsBlockCategoryDayList"); e != nil {
+		err = ex.Error(e, -255).Rem("Failed getting block category dns day list")
 		return
 	}
 
 	defer rec.Close()
 
-	var dataArr []models.DnsBlokCategoryDay
+	var dataArr []models.DnsBlockCategoryDay
 	for rec.Next() {
 		var categoryName string
 		var total uint64
-		var data models.DnsBlokCategoryDay
+		var data models.DnsBlockCategoryDay
 
 		if e := rec.Scan(&categoryName, &total); e != nil {
-			err = ex.Error(e, -255).Rem("Failed scanning blok category dns day list")
+			err = ex.Error(e, -255).Rem("Failed scanning block category dns day list")
 			return
 		}
 

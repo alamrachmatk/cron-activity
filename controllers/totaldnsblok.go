@@ -9,8 +9,8 @@ import (
 	ex "github.com/wolvex/go/error"
 )
 
-func TotalDnsBlok(dbConn db.DbConnection, redisConn redis.Conn) {
-	log.Info("Processing pending get total dns blok")
+func TotalDnsBlock(dbConn db.DbConnection, redisConn redis.Conn) {
+	log.Info("Processing pending get total dns block")
 
 	var err *ex.AppError
 	defer func() {
@@ -19,16 +19,16 @@ func TotalDnsBlok(dbConn db.DbConnection, redisConn redis.Conn) {
 		}
 	}()
 
-	key := "totaldnsblok"
-	err = totalDnsBlokLstQuery(key, dbConn, redisConn)
+	key := "totaldnsblock"
+	err = totalDnsBlockLstQuery(key, dbConn, redisConn)
 	if err != nil {
-		log.Error("Failed query total dns blok: ")
+		log.Error("Failed query total dns block: ")
 	}
 
 	return
 }
 
-func totalDnsBlokLstQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (err *ex.AppError) {
+func totalDnsBlockLstQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (err *ex.AppError) {
 	defer func() {
 		if err != nil {
 			log.Error("Exception caught:", err.Dump())
@@ -37,8 +37,8 @@ func totalDnsBlokLstQuery(key string, dbConn db.DbConnection, redisConn redis.Co
 
 	var rec *sql.Rows
 	var e error
-	if rec, e = dbConn.Query("GetTotalDnsBlok"); e != nil {
-		err = ex.Error(e, -255).Rem("Failed getting total blok")
+	if rec, e = dbConn.Query("GetTotalDnsBlock"); e != nil {
+		err = ex.Error(e, -255).Rem("Failed getting total block")
 		return
 	}
 
@@ -47,7 +47,7 @@ func totalDnsBlokLstQuery(key string, dbConn db.DbConnection, redisConn redis.Co
 	var total uint64
 	for rec.Next() {
 		if e := rec.Scan(&total); e != nil {
-			err = ex.Error(e, -255).Rem("Failed scanning total blok")
+			err = ex.Error(e, -255).Rem("Failed scanning total block")
 			return
 		}
 

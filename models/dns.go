@@ -5,7 +5,7 @@ type DnsDay struct {
 	Total   uint64 `json:"total"`
 }
 
-type DnsBlokCategoryDay struct {
+type DnsBlockCategoryDay struct {
 	CategoryName string `json:"category_name"`
 	Total        uint64 `json:"total"`
 }

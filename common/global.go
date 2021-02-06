@@ -10,10 +10,10 @@ import (
 //Config stores global configuration loaded from json file
 type Configuration struct {
 	Database       string `split_words:"true" default:"db-prod.yml"`
-	DatabaseHost   string `split_words:"true" default:"175.106.8.72"`
-	DatabaseUser   string `split_words:"true" default:"dnsfilter"`
-	DatabasePass   string `split_words:"true" default:"rahasiadns"`
-	DatabaseSchema string `split_words:"true" default:"dnsfilter"`
+	DatabaseHost   string `split_words:"true" default:"localhost"`
+	DatabaseUser   string `split_words:"true" default:"root"`
+	DatabasePass   string `split_words:"true" default:"root@qdns"`
+	DatabaseSchema string `split_words:"true" default:"quantumdns"`
 	RedisHost      string `split_words:"true" default:"localhost"`
 	RedisPort      string `split_words:"true" default:"6379"`
 	Interval       uint64 `split_words:"true" default:"5"`

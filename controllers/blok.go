@@ -11,8 +11,8 @@ import (
 	ex "github.com/wolvex/go/error"
 )
 
-func BlokList(dbConn db.DbConnection, redisConn redis.Conn) {
-	log.Info("Processing pending get blok")
+func BlockList(dbConn db.DbConnection, redisConn redis.Conn) {
+	log.Info("Processing pending get block")
 
 	var err *ex.AppError
 	defer func() {
@@ -21,16 +21,16 @@ func BlokList(dbConn db.DbConnection, redisConn redis.Conn) {
 		}
 	}()
 
-	key := "bloklist"
-	err = blokListQuery(key, dbConn, redisConn)
+	key := "blocklist"
+	err = blockListQuery(key, dbConn, redisConn)
 	if err != nil {
-		log.Error("Failed query blok list: ")
+		log.Error("Failed query block list: ")
 	}
 
 	return
 }
 
-func blokListQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (err *ex.AppError) {
+func blockListQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (err *ex.AppError) {
 	defer func() {
 		if err != nil {
 			log.Error("Exception caught:", err.Dump())
@@ -39,31 +39,31 @@ func blokListQuery(key string, dbConn db.DbConnection, redisConn redis.Conn) (er
 
 	var rec *sql.Rows
 	var e error
-	if rec, e = dbConn.Query("GetBlokList"); e != nil {
-		err = ex.Error(e, -255).Rem("Failed getting blok list")
+	if rec, e = dbConn.Query("GetBlockList"); e != nil {
+		err = ex.Error(e, -255).Rem("Failed getting block list")
 		return
 	}
 
 	defer rec.Close()
 
-	var dataArr []models.Blok
+	var dataArr []models.Block
 	for rec.Next() {
-		var blokId, domain, baseDomain, ipAddress, blokCategoryName, blokName, logDatetime, createdAt string
+		var blockId, domain, baseDomain, ipAddress, blockCategoryName, blockName, logDatetime, createdAt string
 		var hasSubdomain uint64
-		var data models.Blok
+		var data models.Block
 
-		if e := rec.Scan(&blokId, &domain, &baseDomain, &ipAddress, &hasSubdomain, &blokCategoryName, &blokName, &logDatetime, &createdAt); e != nil {
-			err = ex.Error(e, -255).Rem("Failed scanning blok list")
+		if e := rec.Scan(&blockId, &domain, &baseDomain, &ipAddress, &hasSubdomain, &blockCategoryName, &blockName, &logDatetime, &createdAt); e != nil {
+			err = ex.Error(e, -255).Rem("Failed scanning block list")
 			return
 		}
 
-		data.BlokId = blokId
+		data.BlockId = blockId
 		data.Domain = domain
 		data.BaseDomain = baseDomain
 		data.IpAddress = ipAddress
 		data.HasSubdomain = hasSubdomain
-		data.BlokCategoryName = blokCategoryName
-		data.BlokName = blokName
+		data.BlockCategoryName = blockCategoryName
+		data.BlockName = blockName
 		data.LogDatetime = logDatetime
 		data.CreatedAt = createdAt
 

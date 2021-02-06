@@ -9,12 +9,12 @@ SQLCommand:
   GetTotalDns: >
     select COUNT(id) total from dns
 
-  GetTotalBlok: >
-    select COUNT(id) total from blok
+  GetTotalBlock: >
+    select COUNT(id) total from block
 
-  GetTotalDnsBlok: >
+  GetTotalDnsBlock: >
     SELECT count(dns.id) AS total 
-    FROM dns JOIN blok ON dns.base_domain = blok.`name` WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW())
+    FROM dns JOIN block ON dns.base_domain = block.`name` WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW())
 
   GetTotalIpAddress: >
     SELECT COUNT(*) AS total FROM (SELECT COUNT(ip_address) AS cou FROM dns 
@@ -32,14 +32,14 @@ SQLCommand:
     SELECT DAYNAME(DATE(log_datetime)) AS dayname, COUNT(DISTINCT(ip_address)) as total
     FROM dns WHERE DATE(log_datetime) > (NOW() - INTERVAL 7 DAY) Group by DATE(log_datetime) limit 7
 
-  GetBlokList: >
-    SELECT dns.id AS blok_id, dns.domain, dns.base_domain, dns.ip_address, dns.has_subdomain, blok_category.`name` AS blok_category_name, blok.`name` AS blok_name , dns.log_datetime, dns.created_at 
-    FROM dns JOIN blok ON dns.base_domain = blok.`name` JOIN blok_category ON blok_category.id = blok.category_blok_id WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW()) LIMIT 25
+  GetBlockList: >
+    SELECT dns.id AS block_id, dns.domain, dns.base_domain, dns.ip_address, dns.has_subdomain, block_category.`name` AS block_category_name, block.`name` AS block_name , dns.log_datetime, dns.created_at 
+    FROM dns JOIN block ON dns.base_domain = block.`name` JOIN block_category ON block_category.id = block.category_block_id WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW()) LIMIT 25
 
-  GetIpAddressBlokCategoryDayList: >
-    SELECT blok_category.name AS categoryname, COUNT(DISTINCT(dns.ip_address)) AS total
-    FROM dns JOIN blok ON blok.`name` = dns.base_domain JOIN blok_category ON blok_category.id = blok.category_blok_id WHERE DATE(dns.log_datetime) > (NOW() - INTERVAL 3 DAY) GROUP BY categoryname
+  GetIpAddressBlockCategoryDayList: >
+    SELECT block_category.name AS categoryname, COUNT(DISTINCT(dns.ip_address)) AS total
+    FROM dns JOIN block ON block.`name` = dns.base_domain JOIN block_category ON block_category.id = block.category_block_id WHERE DATE(dns.log_datetime) > (NOW() - INTERVAL 3 DAY) GROUP BY categoryname
     
-  GetDnsBlokCategoryDayList: >
-    SELECT blok_category.name AS categoryname, COUNT(dns.id) AS total
-    FROM dns JOIN blok ON blok.`name` = dns.base_domain JOIN blok_category ON blok_category.id = blok.category_blok_id WHERE DATE(dns.log_datetime) > (NOW() - INTERVAL 3 DAY) GROUP BY categoryname
+  GetDnsBlockCategoryDayList: >
+    SELECT block_category.name AS categoryname, COUNT(dns.id) AS total
+    FROM dns JOIN block ON block.`name` = dns.base_domain JOIN block_category ON block_category.id = block.category_block_id WHERE DATE(dns.log_datetime) > (NOW() - INTERVAL 3 DAY) GROUP BY categoryname

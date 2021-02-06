@@ -5,7 +5,7 @@ type IpAddressDay struct {
 	Total   uint64 `json:"total"`
 }
 
-type IpAddressBlokCategoryDay struct {
+type IpAddressBlockCategoryDay struct {
 	CategoryName string `json:"category_name"`
 	Total        uint64 `json:"total"`
 }
