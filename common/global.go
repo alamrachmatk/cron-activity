@@ -10,7 +10,7 @@ import (
 //Config stores global configuration loaded from json file
 type Configuration struct {
 	Database       string `split_words:"true" default:"db-prod.yml"`
-	DatabaseHost   string `split_words:"true" default:"localhost"`
+	DatabaseHost   string `split_words:"true" default:"175.106.13.14"`
 	DatabaseUser   string `split_words:"true" default:"root"`
 	DatabasePass   string `split_words:"true" default:"root@qdns"`
 	DatabaseSchema string `split_words:"true" default:"quantumdns"`
