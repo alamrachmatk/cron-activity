@@ -52,16 +52,16 @@ func main() {
 	dbConn := initDB()
 	redisConn := initRedis()
 
-	gocron.Every(1).Day().At("18:15").Do(controllers.TotalDns, dbConn, redisConn)
-	gocron.Every(1).Day().At("18:15").Do(controllers.TotalBlock, dbConn, redisConn)
-	gocron.Every(1).Day().At("18:15").Do(controllers.TotalDnsBlock, dbConn, redisConn)
-	gocron.Every(1).Day().At("18:15").Do(controllers.TotalIpAdress, dbConn, redisConn)
-	gocron.Every(1).Day().At("18:15").Do(controllers.TotalMostActiveList, dbConn, redisConn)
-	gocron.Every(1).Day().At("18:15").Do(controllers.TotalDnsDayList, dbConn, redisConn)
-	gocron.Every(1).Day().At("18:15").Do(controllers.TotalIpAddressDayList, dbConn, redisConn)
-	gocron.Every(1).Day().At("18:15").Do(controllers.BlockList, dbConn, redisConn) //harus di server karna bakal banyak data list block
-	gocron.Every(1).Day().At("18:15").Do(controllers.TotalIpAddressBlockCategoryDayList, dbConn, redisConn)
-	gocron.Every(1).Day().At("18:15").Do(controllers.TotalDnsBlockCategoryDayList, dbConn, redisConn)
+	gocron.Every(1).Day().At("21:00").Do(controllers.TotalDns, dbConn, redisConn)
+	gocron.Every(1).Day().At("21:00").Do(controllers.TotalBlock, dbConn, redisConn)
+	gocron.Every(1).Day().At("21:00").Do(controllers.TotalDnsBlock, dbConn, redisConn)
+	gocron.Every(1).Day().At("21:00").Do(controllers.TotalIpAdress, dbConn, redisConn)
+	gocron.Every(1).Day().At("21:00").Do(controllers.TotalMostActiveList, dbConn, redisConn)
+	gocron.Every(1).Day().At("21:00").Do(controllers.TotalDnsDayList, dbConn, redisConn)
+	gocron.Every(1).Day().At("21:00").Do(controllers.TotalIpAddressDayList, dbConn, redisConn)
+	gocron.Every(1).Day().At("21:00").Do(controllers.BlockList, dbConn, redisConn) //harus di server karna bakal banyak data list block
+	gocron.Every(1).Day().At("21:00").Do(controllers.TotalIpAddressBlockCategoryDayList, dbConn, redisConn)
+	gocron.Every(1).Day().At("21:00").Do(controllers.TotalDnsBlockCategoryDayList, dbConn, redisConn)
 
 	<-gocron.Start()
 }
