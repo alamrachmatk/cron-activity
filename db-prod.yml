@@ -1,7 +1,7 @@
 
 #database connection settings
 Type: mysql
-URL: root:root@qdns@(175.106.13.14:3306)/quantumdns
+URL: root:quantum123@(175.106.13.14:3306)/quantumdns
 
 #sql commands used in application
 SQLCommand:
