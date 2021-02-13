@@ -14,7 +14,7 @@ SQLCommand:
 
   GetTotalDnsBlock: >
     SELECT count(dns.id) AS total 
-    FROM dns JOIN block ON dns.base_domain = block.`name` WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW())
+    FROM dns JOIN block ON dns.base_domain = block.`domain` WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW())
 
   GetTotalIpAddress: >
     SELECT COUNT(*) AS total FROM (SELECT COUNT(ip_address) AS cou FROM dns 
@@ -34,12 +34,12 @@ SQLCommand:
 
   GetBlockList: >
     SELECT dns.id AS block_id, dns.domain, dns.base_domain, dns.ip_address, dns.has_subdomain, block_category.`name` AS block_category_name, block.`name` AS block_name , dns.log_datetime, dns.created_at 
-    FROM dns JOIN block ON dns.base_domain = block.`name` JOIN block_category ON block_category.id = block.category_block_id WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW()) LIMIT 25
+    FROM dns JOIN block ON dns.base_domain = block.`domain` JOIN block_category ON block_category.id = block.category_block_id WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW()) LIMIT 25
 
   GetIpAddressBlockCategoryDayList: >
     SELECT block_category.name AS categoryname, COUNT(DISTINCT(dns.ip_address)) AS total
-    FROM dns JOIN block ON block.`name` = dns.base_domain JOIN block_category ON block_category.id = block.category_block_id WHERE DATE(dns.log_datetime) > (NOW() - INTERVAL 3 DAY) GROUP BY categoryname
+    FROM dns JOIN block ON block.`domain` = dns.base_domain JOIN block_category ON block_category.id = block.category_block_id WHERE DATE(dns.log_datetime) > (NOW() - INTERVAL 3 DAY) GROUP BY categoryname
     
   GetDnsBlockCategoryDayList: >
     SELECT block_category.name AS categoryname, COUNT(dns.id) AS total
-    FROM dns JOIN block ON block.`name` = dns.base_domain JOIN block_category ON block_category.id = block.category_block_id WHERE DATE(dns.log_datetime) > (NOW() - INTERVAL 3 DAY) GROUP BY categoryname
+    FROM dns JOIN block ON block.`domain` = dns.base_domain JOIN block_category ON block_category.id = block.category_block_id WHERE DATE(dns.log_datetime) > (NOW() - INTERVAL 3 DAY) GROUP BY categoryname
