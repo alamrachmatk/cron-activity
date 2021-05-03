@@ -62,7 +62,7 @@ func main() {
 	// gocron.Every(1).Day().At("14:25").Do(controllers.BlockList, dbConn, redisConn) //harus di server karna bakal banyak data list block
 	// gocron.Every(1).Day().At("14:25").Do(controllers.TotalIpAddressBlockCategoryDayList, dbConn, redisConn)
 	// gocron.Every(1).Day().At("14:25").Do(controllers.TotalDnsBlockCategoryDayList, dbConn, redisConn)
-	gocron.Every(1).Day().At("22:11").Do(controllers.TotalRequestList, dbConn, redisConn)
+	gocron.Every(1).Day().At("22:33").Do(controllers.TotalRequestList, dbConn, redisConn)
 
 	<-gocron.Start()
 }
