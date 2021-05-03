@@ -43,3 +43,7 @@ SQLCommand:
   GetDnsBlockCategoryDayList: >
     SELECT block_category.name AS categoryname, COUNT(dns.id) AS total
     FROM dns JOIN block ON block.`domain` = dns.base_domain JOIN block_category ON block_category.id = block.category_block_id WHERE DATE(dns.log_datetime) > (NOW() - INTERVAL 3 DAY) GROUP BY categoryname
+
+  GetTotalRequestList: >
+    SELECT TIME(log_datetime) AS time, count(id) AS total 
+    FROM dns WHERE DATE(log_datetime) = CURDATE() GROUP BY UNIX_TIMESTAMP(log_datetime) DIV 300
