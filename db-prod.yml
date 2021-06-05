@@ -26,7 +26,7 @@ SQLCommand:
 
   GetTotalDnsDayList: >
     SELECT DAYNAME(DATE(log_datetime)) AS dayname, COUNT(1) as total
-    FROM dns WHERE DATE(log_datetime) > (NOW() - INTERVAL 3 DAY) Group by DATE(log_datetime) limit 7
+    FROM dns WHERE DATE(log_datetime) > (NOW() - INTERVAL 7 DAY) Group by DATE(log_datetime) limit 7
 
   GetTotalIpAddressDayList: >
     SELECT DAYNAME(DATE(log_datetime)) AS dayname, COUNT(DISTINCT(ip_address)) as total
