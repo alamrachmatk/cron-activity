@@ -54,41 +54,42 @@ func main() {
 
 	 gocron.Every(1).Day().At("00:15").Do(controllers.TotalDns, dbConn, redisConn)
 	 gocron.Every(1).Day().At("12:00").Do(controllers.TotalDns, dbConn, redisConn)
-	 gocron.Every(1).Day().At("18:00").Do(controllers.TotalDns, dbConn, redisConn)
+	 gocron.Every(1).Day().At("20:00").Do(controllers.TotalDns, dbConn, redisConn)
 
 	 gocron.Every(1).Day().At("00:20").Do(controllers.TotalBlock, dbConn, redisConn)
 	 gocron.Every(1).Day().At("12:05").Do(controllers.TotalBlock, dbConn, redisConn)
-	 gocron.Every(1).Day().At("18:05").Do(controllers.TotalBlock, dbConn, redisConn)
+	 gocron.Every(1).Day().At("20:05").Do(controllers.TotalBlock, dbConn, redisConn)
 
 	 gocron.Every(1).Day().At("00:25").Do(controllers.TotalDnsBlock, dbConn, redisConn)
 	 gocron.Every(1).Day().At("12:10").Do(controllers.TotalDnsBlock, dbConn, redisConn)
-	 gocron.Every(1).Day().At("18:10").Do(controllers.TotalDnsBlock, dbConn, redisConn)
+	 gocron.Every(1).Day().At("20:10").Do(controllers.TotalDnsBlock, dbConn, redisConn)
 
 	 gocron.Every(1).Day().At("00:30").Do(controllers.TotalIpAdress, dbConn, redisConn)
 	 gocron.Every(1).Day().At("12:15").Do(controllers.TotalIpAdress, dbConn, redisConn)
-	 gocron.Every(1).Day().At("18:15").Do(controllers.TotalIpAdress, dbConn, redisConn)
+	 gocron.Every(1).Day().At("20:15").Do(controllers.TotalIpAdress, dbConn, redisConn)
 
 	 gocron.Every(1).Day().At("00:35").Do(controllers.TotalMostActiveList, dbConn, redisConn)
 	 gocron.Every(1).Day().At("12:20").Do(controllers.TotalMostActiveList, dbConn, redisConn)
-	 gocron.Every(1).Day().At("18:20").Do(controllers.TotalMostActiveList, dbConn, redisConn)
+	 gocron.Every(1).Day().At("20:20").Do(controllers.TotalMostActiveList, dbConn, redisConn)
 
 	 gocron.Every(1).Day().At("00:40").Do(controllers.TotalDnsDayList, dbConn, redisConn)
 	 gocron.Every(1).Day().At("12:25").Do(controllers.TotalDnsDayList, dbConn, redisConn)
-	 gocron.Every(1).Day().At("18:25").Do(controllers.TotalDnsDayList, dbConn, redisConn)
+	 gocron.Every(1).Day().At("20:25").Do(controllers.TotalDnsDayList, dbConn, redisConn)
 
 	 gocron.Every(1).Day().At("00:45").Do(controllers.TotalIpAddressDayList, dbConn, redisConn)
 	 gocron.Every(1).Day().At("12:30").Do(controllers.TotalIpAddressDayList, dbConn, redisConn)
-	 gocron.Every(1).Day().At("18:30").Do(controllers.TotalIpAddressDayList, dbConn, redisConn)
+	 gocron.Every(1).Day().At("20:30").Do(controllers.TotalIpAddressDayList, dbConn, redisConn)
 
 	 gocron.Every(1).Day().At("00:50").Do(controllers.BlockList, dbConn, redisConn)
 	 gocron.Every(1).Day().At("12:35").Do(controllers.BlockList, dbConn, redisConn)
-	 gocron.Every(1).Day().At("18:35").Do(controllers.BlockList, dbConn, redisConn)
+	 gocron.Every(1).Day().At("20:35").Do(controllers.BlockList, dbConn, redisConn)
 
 	 //gocron.Every(1).Day().At("14:25").Do(controllers.TotalIpAddressBlockCategoryDayList, dbConn, redisConn) x
 	 //gocron.Every(1).Day().At("14:25").Do(controllers.TotalDnsBlockCategoryDayList, dbConn, redisConn) x
+
 	 gocron.Every(1).Day().At("00:55").Do(controllers.TotalRequestList, dbConn, redisConn)
 	 gocron.Every(1).Day().At("12:40").Do(controllers.TotalRequestList, dbConn, redisConn)
-	 gocron.Every(1).Day().At("18:40").Do(controllers.TotalRequestList, dbConn, redisConn)
+	 gocron.Every(1).Day().At("20:40").Do(controllers.TotalRequestList, dbConn, redisConn)
 
 	<-gocron.Start()
 }
