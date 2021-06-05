@@ -7,43 +7,43 @@ URL: root:quantum@(175.106.13.14:3306)/quantumdns
 SQLCommand:
 
   GetTotalDns: >
-    select COUNT(id) total from dns
+    select COUNT(id) total from dns_prod
 
   GetTotalBlock: >
     select COUNT(id) total from block
 
   GetTotalDnsBlock: >
     SELECT count(dns.id) AS total 
-    FROM dns JOIN block ON dns.base_domain = block.`domain` WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW())
+    FROM dns_prod JOIN block ON dns.base_domain = block.`domain` WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW())
 
   GetTotalIpAddress: >
-    SELECT COUNT(*) AS total FROM (SELECT COUNT(ip_address) AS cou FROM dns 
+    SELECT COUNT(*) AS total FROM (SELECT COUNT(ip_address) AS cou FROM dns_prod
     WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW()) GROUP BY ip_address HAVING cou>1 ) AS total
 
   GetTotalMostActiveList: >
     SELECT base_domain, count(base_domain) total_most_active 
-    from dns WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW()) GROUP BY base_domain ORDER BY total_most_active DESC LIMIT 10
+    from dns_prod WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW()) GROUP BY base_domain ORDER BY total_most_active DESC LIMIT 10
 
   GetTotalDnsDayList: >
     SELECT DAYNAME(DATE(log_datetime)) AS dayname, COUNT(1) as total
-    FROM dns WHERE DATE(log_datetime) > (NOW() - INTERVAL 7 DAY) Group by DATE(log_datetime) limit 7
+    FROM dns_prod WHERE DATE(log_datetime) > (NOW() - INTERVAL 7 DAY) Group by DATE(log_datetime) limit 7
 
   GetTotalIpAddressDayList: >
     SELECT DAYNAME(DATE(log_datetime)) AS dayname, COUNT(DISTINCT(ip_address)) as total
-    FROM dns WHERE DATE(log_datetime) > (NOW() - INTERVAL 7 DAY) Group by DATE(log_datetime) limit 7
+    FROM dns_prod WHERE DATE(log_datetime) > (NOW() - INTERVAL 7 DAY) Group by DATE(log_datetime) limit 7
 
   GetBlockList: >
     SELECT dns.id AS block_id, dns.domain, dns.base_domain, dns.ip_address, dns.has_subdomain, block_category.`name` AS block_category_name, block.`name` AS block_name , dns.log_datetime, dns.created_at 
-    FROM dns JOIN block ON dns.base_domain = block.`domain` JOIN block_category ON block_category.id = block.category_block_id WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW()) LIMIT 25
+    FROM dns_prod JOIN block ON dns.base_domain = block.`domain` JOIN block_category ON block_category.id = block.category_block_id WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW()) LIMIT 25
 
   GetIpAddressBlockCategoryDayList: >
     SELECT block_category.name AS categoryname, COUNT(DISTINCT(dns.ip_address)) AS total
-    FROM dns JOIN block ON block.`domain` = dns.base_domain JOIN block_category ON block_category.id = block.category_block_id WHERE DATE(dns.log_datetime) > (NOW() - INTERVAL 3 DAY) GROUP BY categoryname
+    FROM dns_prod JOIN block ON block.`domain` = dns.base_domain JOIN block_category ON block_category.id = block.category_block_id WHERE DATE(dns.log_datetime) > (NOW() - INTERVAL 3 DAY) GROUP BY categoryname
     
   GetDnsBlockCategoryDayList: >
     SELECT block_category.name AS categoryname, COUNT(dns.id) AS total
-    FROM dns JOIN block ON block.`domain` = dns.base_domain JOIN block_category ON block_category.id = block.category_block_id WHERE DATE(dns.log_datetime) > (NOW() - INTERVAL 3 DAY) GROUP BY categoryname
+    FROM dns_prod JOIN block ON block.`domain` = dns.base_domain JOIN block_category ON block_category.id = block.category_block_id WHERE DATE(dns.log_datetime) > (NOW() - INTERVAL 3 DAY) GROUP BY categoryname
 
   GetTotalRequestList: >
     SELECT TIME(log_datetime) AS time, count(id) AS total 
-    FROM dns WHERE DATE(log_datetime) = CURDATE() GROUP BY UNIX_TIMESTAMP(log_datetime) DIV 300
+    FROM dns_prod WHERE DATE(log_datetime) = CURDATE() GROUP BY UNIX_TIMESTAMP(log_datetime) DIV 300
