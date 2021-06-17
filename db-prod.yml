@@ -14,14 +14,15 @@ SQLCommand:
 
   GetTotalDnsBlock: >
     SELECT count(dns_prod.id) AS total
-    FROM dns_prod JOIN block ON dns_prod.base_domain = block.`domain`
+    FROM dns_prod JOIN block ON dns_prod.base_domain = block.`domain` WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW())
 
   GetTotalIpAddress: >
-    SELECT COUNT(*) AS total FROM (SELECT COUNT(ip_address) AS cou FROM dns_prod GROUP BY ip_address HAVING cou>1 ) AS total
+    SELECT COUNT(*) AS total FROM (SELECT COUNT(ip_address) AS cou FROM dns_prod
+    WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW()) GROUP BY ip_address HAVING cou>1 ) AS total
 
   GetTotalMostActiveList: >
     SELECT base_domain, count(base_domain) total_most_active 
-    from dns_prod GROUP BY base_domain ORDER BY total_most_active DESC LIMIT 10
+    from dns_prod WHERE WEEKOFYEAR(log_datetime) = WEEKOFYEAR(NOW()) GROUP BY base_domain ORDER BY total_most_active DESC LIMIT 10
 
   GetTotalDnsDayList: >
     SELECT DAYNAME(DATE(log_datetime)) AS dayname, COUNT(1) as total
